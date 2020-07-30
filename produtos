@@ -1,0 +1,77 @@
+produto=[]
+def registro(**kwargs):
+ 
+  kwargs['produto']=str(input('produto:'))
+  kwargs['quantidade']=int(input('quantidade:'))
+  kwargs['custo']=float(input('custo:'))
+  kwargs['despesas']=float(input('despesas'))
+  kwargs['lucro']=kwargs['custo']/2
+  kwargs['venda']=kwargs['custo']+kwargs['lucro']+kwargs['despesas']
+ 
+  produto.append(kwargs.copy())
+  kwargs.clear()
+  print('-'*8)
+
+
+
+def menu():
+  m=[{'999':'SAIR','0':'MENU','1':'REGISTRO','2':'VER REGISTRO','3':'MAIOR CUSTO','4':'MENOR CUSTO','5':'MAIOR LUCRO','6':'MENOR LUCRO','7':'RANK DO PRECO DE VENDA','8':'VER PRODUTO'}for c in range(1)]
+  [{print(f'{x}={z}')for x,z in c.items()}for c in m]
+  print('-'*8)
+
+def ver_registro():
+  for c in produto:
+    print('-'*8)
+    for x,z in c.items():
+      print(f'{x}={z}')
+
+
+print('DIGITE 0 PARA VER O MENU')
+while True:
+  opcao=int(input('opcao:'))
+  if len(produto)==0:
+    while opcao>1:
+      print('voce tem que registar um produto primeiro')
+      opcao=int(input('opcao:'))
+  if opcao==999:
+    break
+  if opcao==0:
+    menu()
+  if opcao==1:
+    registro()
+  if opcao==2:
+    ver_registro()
+  if opcao==3:
+    print('produto:',end='')
+    print(max(produto,key=lambda c:c['custo'])['produto'])
+  if opcao==4:
+    print('produto:',end='')
+    print(min(produto,key=lambda c:c['custo'])['produto'])
+  if opcao==5:
+    print('produto:',end='')
+    print(max(produto,key=lambda c:c['lucro'])['produto'])
+  if opcao==6:
+    print('produto:',end='')
+    print(min(produto,key=lambda c:c['lucro'])['produto'])
+  if opcao==7:
+    p=sorted(produto,key=lambda x:x['venda'],reverse=True)
+    [{print(f'{x}={z}')for x,z in c.items()}for c in p]
+  if opcao==8:
+    prod=str(input('produto:'))
+    p=list(filter(lambda x:x['produto'] in prod,produto))
+    if len(p)==0:
+      print(f'{prod} nao esta cadastrado')
+    else:
+      [{print(f'{x}={z}')for x,z in c.items()}for c in p]
+    
+
+
+   
+   
+   
+   
+
+
+
+
+  
