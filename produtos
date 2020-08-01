@@ -3,10 +3,14 @@ def registro(**kwargs):
  
   kwargs['produto']=str(input('produto:'))
   kwargs['quantidade']=int(input('quantidade:'))
+  while kwargs['quantidade']<1:
+    print('quantidade invalida')
+    kwargs['quantidade']=int(input('quantidade:'))
   kwargs['custo']=float(input('custo:'))
   kwargs['despesas']=float(input('despesas'))
-  kwargs['lucro']=kwargs['custo']/2
+  kwargs['lucro']=(kwargs['custo']+kwargs['despesas'])/2
   kwargs['venda']=kwargs['custo']+kwargs['lucro']+kwargs['despesas']
+  kwargs['venda por unidade']=kwargs['venda']/kwargs['quantidade']
  
   produto.append(kwargs.copy())
   kwargs.clear()
@@ -15,7 +19,7 @@ def registro(**kwargs):
 
 
 def menu():
-  m=[{'999':'SAIR','0':'MENU','1':'REGISTRO','2':'VER REGISTRO','3':'MAIOR CUSTO','4':'MENOR CUSTO','5':'MAIOR LUCRO','6':'MENOR LUCRO','7':'RANK DO PRECO DE VENDA','8':'VER PRODUTO'}for c in range(1)]
+  m=[{'999':'SAIR','0':'MENU','1':'REGISTRO','2':'VER REGISTRO','3':'MAIOR CUSTO','4':'MENOR CUSTO','5':'MAIOR LUCRO','6':'MENOR LUCRO','7':'RANK DO PRECO DE VENDA','8':'VER PRODUTO','9':'ALTERAR DADO'}for c in range(1)]
   [{print(f'{x}={z}')for x,z in c.items()}for c in m]
   print('-'*8)
 
@@ -63,15 +67,31 @@ while True:
       print(f'{prod} nao esta cadastrado')
     else:
       [{print(f'{x}={z}')for x,z in c.items()}for c in p]
+  if opcao==9:
+    prod=str(input('produto:'))
+    p=list(filter(lambda x:x['produto'] in prod,produto))
+    if len(p)==0:
+      print(f'{prod} nao esta cadastrado')
+    else:
+      for c in range(len(produto)):
+        while True:
+          print('0:SAIR 1:QUANTIDADE 2:CUSTO 3:DESPESAS')
+          opc=int(input('opcao:'))
+          if opc ==0:
+            print('saiu')
+            break
+          if opc==1:
+            produto[c]['quantidade']=int(input('novo valor de  quantia:'))
+          if opc==2:
+            produto[c]['custo']=int(input('novo valor de custo:'))
+          if opc==3:
+            produto[c]['despesas']=int(input('novo valor de despesas:'))
     
+      
 
 
+      
    
-   
-   
-   
 
 
-
-
-  
+    
