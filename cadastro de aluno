@@ -1,0 +1,63 @@
+def cadastrando(**kwargs):
+  from random import randint
+  kwargs['matricula']=randint(1000000,9999999)
+  kwargs['nome']=str(input('nome:'))
+  kwargs['turma']=int(input('turma:'))
+  kwargs['turno']=str(input('turno[MANHA/NOITE]:')).strip().lower()[0]
+  while kwargs['turno']!='m' and kwargs['turno']!='n':
+    print('invalido o turno')
+    kwargs['turno']=str(input('turno[MANHA/NOITE]:')).strip().lower()[0]
+  alunos.append(kwargs.copy())
+  kwargs.clear()
+
+
+
+def ver_dados(aluno):
+  a=list(filter(lambda x: x['nome'] in aluno,alunos))
+  if len(a)==0:
+    print(f'{aluno} nao esta cadastrado')
+  else:
+    [{print(f'{x}={z} ')for x,z in c.items()}for c in a]
+
+
+def adicionar_notas(aluno):
+  a=list(filter(lambda x: x['nome'] in aluno,alunos))
+  if len(a)==0:
+    print(f'{aluno} nao esta cadastrado')
+  else:
+    for c in range(len(a)):
+      a[c]['nota parcial']=float(input('nota parcial'))
+      s=str(input('quer adicionar nota bimestral?'))[0].strip().lower()
+      if 's'in s:
+        a[c]['nota bimestral']=float(input('nota bimestral'))
+
+      
+   
+def adicionar_bimestral(aluno):
+  a=list(filter(lambda x: x['nome'] in aluno,alunos))
+  if len(a)==0:
+    print(f'{aluno} nao esta cadastrado')
+  else:
+    for c in range(len(a)):
+      a[c]['nota bimestral']=float(input('nota bimestral'))
+
+def media(aluno):
+  a=list(filter(lambda x: x['nome'] in aluno,alunos))
+  if len(a)==0:
+    print(f'{aluno} nao esta cadastrado')
+  else:
+    for c in range(len(a)):
+      a[c]['media']=(a[c]['nota parcial']+a[c]['nota bimestral'])/2
+
+alunos=[]
+cadastrando()
+cadastrando()
+""""
+for c in range(len(alunos)):
+  alunos[c]['aaaa']=4
+"''"""
+
+adicionar_notas(str(input('nome:')))
+ver_dados(str(input('nome:')))
+media(str(input('nome:')))
+ver_dados(str(input('nome:')))
