@@ -48,16 +48,18 @@ def media(aluno):
   else:
     for c in range(len(a)):
       a[c]['media']=(a[c]['nota parcial']+a[c]['nota bimestral'])/2
+      if a[c]['media']>=6:
+        a[c]['situação']='aprovado'
+      else:
+         a[c]['situação']='reprovado'
+
+
+
+
 
 alunos=[]
 cadastrando()
-cadastrando()
-""""
-for c in range(len(alunos)):
-  alunos[c]['aaaa']=4
-"''"""
-
 adicionar_notas(str(input('nome:')))
-ver_dados(str(input('nome:')))
+adicionar_bimestral(str(input('nome:')))
 media(str(input('nome:')))
 ver_dados(str(input('nome:')))
