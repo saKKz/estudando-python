@@ -53,13 +53,34 @@ def media(aluno):
       else:
          a[c]['situação']='reprovado'
 
+def maior_media():
+  mair_mediafoi=max(alunos,key=lambda x:x['media'])['nome']
+  print(f'maior media foi do {mair_mediafoi} ')
+
+def rank_media():
+  yt=sorted(alunos,key=lambda x:x['media'],reverse=True)
+  [{print(f'{x}={z}')for x,z in c.items()}for c in yt ]
 
 
 
 
 alunos=[]
-cadastrando()
-adicionar_notas(str(input('nome:')))
-adicionar_bimestral(str(input('nome:')))
-media(str(input('nome:')))
-ver_dados(str(input('nome:')))
+print('0:sair 1:cadastrar 2:ver dados 3:adiconar notas 4:adicionar nota bimestral 5:adicionar media 6:maior media')
+while True:
+  opc=int(input('opcao:'))
+  if opc==0:
+    break
+  if opc==1:
+    cadastrando()
+  if opc==2:
+    ver_dados(str(input('nome:')))
+  if opc==3:
+    adicionar_notas(str(input('nome:')))
+  if opc==4:
+    adicionar_bimestral(str(input('nome:')))
+  if opc==5:
+    media(str(input('nome:')))
+  if opc==6:
+    maior_media()
+  if opc==7:
+    rank_media()
