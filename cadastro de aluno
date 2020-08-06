@@ -2,7 +2,7 @@ def cadastrando(**kwargs):
   from random import randint
   kwargs['matricula']=randint(1000000,9999999)
   kwargs['nome']=str(input('nome:'))
-  kwargs['turma']=int(input('turma:'))
+  kwargs['turma']=str(input('turma:'))
   kwargs['turno']=str(input('turno[MANHA/NOITE]:')).strip().lower()[0]
   while kwargs['turno']!='m' and kwargs['turno']!='n':
     print('invalido o turno')
@@ -61,11 +61,21 @@ def rank_media():
   yt=sorted(alunos,key=lambda x:x['media'],reverse=True)
   [{print(f'{x}={z}')for x,z in c.items()}for c in yt ]
 
+def ver_turmas(turma):
+  t=list(filter(lambda x: x['turma'] in turma ,alunos))
+  [{print(f'{x}={z}')for x,z in c.items()}for c in t]
+
+def remover_aluno(aluno):
+  for c in range(len(alunos)):
+    if alunos[c]['nome']==aluno:
+      del alunos[c]
+      break
+ 
+  
 
 
 
 alunos=[]
-print('0:sair 1:cadastrar 2:ver dados 3:adiconar notas 4:adicionar nota bimestral 5:adicionar media 6:maior media')
 while True:
   opc=int(input('opcao:'))
   if opc==0:
@@ -84,3 +94,7 @@ while True:
     maior_media()
   if opc==7:
     rank_media()
+  if opc==8:
+    ver_turmas(str(input('qual turma?:')))
+  if opc==9:
+    remover_aluno(str(input('qual aluno?:')))
