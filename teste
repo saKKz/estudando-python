@@ -1,0 +1,117 @@
+def cadastrando(**kwargs):
+  import datetime
+  try:
+    kwargs['nome']=str(input('nome:')).strip().title()
+    while True:
+      xx=list(filter(lambda x: kwargs['nome'] in x['nome'],cadastro))
+      if len(xx)>0:
+        print(f'ja esta no cadastro')
+        kwargs['nome']=str(input('nome:')).strip().title()
+      else:
+        break
+    kwargs['sexo']=str(input('sexo:'))[0].lower().strip()
+    while kwargs['sexo']!='f' and  kwargs['sexo']!='m':
+      print(f'valor invalido')
+      kwargs['sexo']=str(input('sexo:'))[0].lower().strip()
+    if kwargs['sexo']=='m':
+      kwargs['sexo']='masculino'
+    else:
+      kwargs['sexo']='feminino'
+    print('data de nascimento:')
+    kwargs['data de nascimento']={'dia':int(input('dia:')),'mes':int(input('mes')),'ano':int(input('ano:'))}
+    while kwargs['data de nascimento']['dia']>31:
+      print('valor de dia  invalido')
+      kwargs['data de nascimento']['dia']=int(input('dia:'))
+    while kwargs['data de nascimento']['mes']>12:
+      print('valor do mes invalido')
+      kwargs['data de nascimento']['mes']=int(input('mes:'))
+    while kwargs['data de nascimento']['ano']>datetime.datetime.today().year:
+      print('ano invalido')
+      kwargs['data de nascimento']['ano']=int(input('ano:'))
+    kwargs['idade']=datetime.datetime.today().year-kwargs['data de nascimento']['ano']
+    kwargs['cpf']=str(input('CPF'))
+    while True:
+      if len(kwargs['cpf'])<11 or len(kwargs['cpf'])>11:
+        print('cpf invalido')
+        kwargs['cpf']=str(input('CPF'))
+      else:
+        break
+    kwargs['email']=str(input('email:')).strip()
+    kwargs['estado']=str(input('estado:')).strip().title()
+    kwargs['cidade']=str(input('cidade:')).strip().title()
+    cadastro.append(kwargs.copy())
+    kwargs.clear()
+  except ValueError as erro_um:
+    print(f'deu erro :{erro_um} digite um valor valido')
+  except:
+    print('ops...alguma coisa deu errada')
+
+def ver_pessoa(pessoa):
+  try:
+    x=list(filter(lambda x:pessoa in x['nome'],cadastro))
+    if len(x)==0:
+      print(f'{pessoa} nao esta no cadastro ')
+    else:
+      [{print(f'{xx}={z}')for xx,z in c.items()}for c in x]
+  except KeyError as erro_dois:
+    print(f'{pessoa} nao estar no cadastro {erro_dois}')
+  except:
+    print('ops...alguma coisa deu errada')
+    
+
+def remover_pessoa(pessoa):
+  z=list(filter(lambda xp:pessoa in xp['nome'],cadastro))
+  if len(z)==0:
+    print(f'{pessoa} nao esta no cadastro ')
+  else:
+    for c in range(len(cadastro)):
+      if pessoa in cadastro[c]['nome']:
+        del cadastro[c]['nome']
+     
+    
+def ver_lista():
+  for c in cadastro:
+    print('='*30)
+    for x,z in c.items():
+      print(f' {x}={z}')
+
+def opcoes():
+  op={'MENU':'OPCOES','0':'sair','1':'nome','2':'sexo','3':'data de nascimento','4':'cpf','5':'email','6':'estado','7':'cidade'}
+  for x,z in op.items():
+    print(f'{x}={z} ')
+
+
+
+def alterar_dado(pessoa):
+  z=list(filter(lambda xp:pessoa in xp['nome'],cadastro))
+  if len(z)==0:
+    print(f'{pessoa} nao esta no cadastro ')
+  else:
+    opcoes()
+    try:
+      for c in range(len(cadastro)):
+        while True:
+          opc=int(input('sua opcao:'))
+          if opc==0:
+            break
+          if opc==1:
+            cadastro[c]['nome']=str(input('novo nome'))
+          if opc==2:
+            cadastro[c]['sexo']=str(input('novo sexo'))
+          
+    except:
+      print('ops...alguma coisa esta errada')
+
+  
+    
+
+
+
+
+
+
+cadastro=[]
+cadastrando()
+ver_lista()
+alterar_dado(str(input('nome').title()))
+ver_lista()
