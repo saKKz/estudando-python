@@ -1,0 +1,93 @@
+def produto(**kwargs):
+  try:
+    kwargs['produto']=str(input('produto:'))
+    while True:
+      x=list(filter(lambda xx:kwargs['produto'] in xx['produto'],estoque))
+      if len(x)==0:
+        break
+      else:
+        print('ja esta no cadastro')
+        kwargs['produto']=str(input('produto:'))
+    kwargs['quantidade']=float(input('quantidade:'))
+    while kwargs['quantidade']<1:
+      print('quantidade invalida')
+      kwargs['quantidade']=int(input('quantidade:'))
+    kwargs['preço']=float(input('preço:'))
+    estoque.append(kwargs.copy())
+    kwargs.clear()
+  except ValueError as erro_um:
+    print(f'digitou alguma coisa errada ai meu chapa...{erro_um}')
+  except:
+    print('ops alguma coisa deu errada........')
+
+
+def comprar(qual_produto):
+  try:
+    x=list(filter(lambda xx:qual_produto in xx['produto'],estoque))
+    if len(x)==0:
+      print(f'{qual_produto} nao tem no estoque...')
+    else:
+      qtd=int(input('quantidade do produto que  voce vai comprar?:'))
+      while qtd<1:
+        print('quantidade invalida')
+        qtd=int(input('quantidade do produto que  voce vai comprar?:'))
+      for c in range(len(estoque)):
+        estoque[c]['quantidade']=estoque[c]['quantidade']-qtd
+  except ValueError as erro_dois:
+    print(f'digitou alguma coisa errada ai meu chapa...{erro_dois}')
+  except:
+    print('ops alguma coisa deu errada........')
+
+
+def desconto(produto):
+  try:
+    x=list(filter(lambda xx:produto in xx['produto'],estoque))
+    if len(x)==0:
+      print(f'{produto} nao tem no estoque...')
+    else:
+      x[0]['desconto']=float(input('desconto do produto'))
+      x[0]['preço apos o desconto']=x[0]['preço']-(x[0]['preço']/100)*x[0]['desconto']
+  except ValueError as erro_tres:
+      print(f'digitou alguma coisa errada ai meu chapa...{erro_tres}')
+  except:
+    print('ops alguma coisa deu errada........')
+          
+
+def ver_estoque():
+  for c in estoque:
+    print('='*10)
+    for x,z in c.items():
+      print(f'{x}={z}')
+    
+
+def remover_produto(produto):
+  try:
+    x=list(filter(lambda xx:produto in xx['produto'],estoque))
+    if len(x)==0:
+      print('nao esta no cadastro')
+    else:
+      for c in range(len(estoque)):
+        if estoque[c]['produto']==produto:
+          del estoque[c]
+  except ValueError as erro_quarto:
+    print(f'digitou alguma coisa errada ai meu chapa...{erro_quarto}')
+  except:
+    print('ops alguma coisa deu errada........')
+    
+
+    
+    
+
+    
+  
+  
+
+
+estoque=[]
+produto()
+produto()
+comprar(str(input('prod:')))
+desconto(str(input('prod com desconto')))
+ver_estoque()
+remover_produto(str(input('remover produto')))
+ver_estoque()
