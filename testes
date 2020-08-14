@@ -1,0 +1,53 @@
+
+"""
+try:
+  cadastro=[{'nome':str(input('nome:')),'idade':int(input('idade:'))}for c in range(int(input('quantas pessoas para serem cadastradas?:')))]
+except (ValueError,NameError) as erro1:
+  print(f'ERRO....{erro1}') 
+
+
+def verlista(l):
+  for c in l:
+    print('-'*10)
+    for x,z in c.items():
+      print(f'{x}={z}')
+
+nome=str(input('nome:'))
+verifica_nome=list(filter(lambda x: nome in x['nome'] ,cadastro))
+if len(verifica_nome)==0:
+  print(f'{nome} nao esta na lista')
+else:
+  for c in range(len(verifica_nome)):
+    verifica_nome[0]['sexo']='m'
+
+
+print(cadastro)
+
+print(verifica_nome)
+
+verlista(cadastro)
+
+nome_maiusculo=list(map(lambda x:(x['nome'].title(),x['idade']),cadastro))
+dobro_idade=list(map(lambda x:{'nome':x['nome'],'idade':x['idade']*2},cadastro))
+
+verlista(dobro_idade)
+
+
+
+area= lambda base,altura : base*altura/2
+
+
+
+triangulos=[ area(int(input('base:')),int(input('altura:'))) for c in range(int(input('quantos areas de triangulos:')))]
+
+print(triangulos)
+
+"""
+try:
+  cadastro=[{'nome':str(input('nome:')),'idade':int(input('idade:'))}for c in range(int(input('quantas pessoas para serem cadastradas?:')))]
+except (ValueError,NameError) as erro1:
+  print(f'ERRO....{erro1}') 
+
+print(sorted(cadastro,key = lambda x:x['idade'],reverse=True))
+velho=max(cadastro,key = lambda x :x['idade'])
+print(velho)
