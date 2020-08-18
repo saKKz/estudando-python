@@ -1,0 +1,141 @@
+from random import randint, choice
+from time import  sleep
+
+pokemons = [{'pokemon':'Bulbasaur'},{'pokemon':'Ivysaur'},{'pokemon':'Venusaur'},{'pokemon':'Charmander'},
+            {'pokemon':'Charmeleon'},{'pokemon':'Charizard'},{'pokemon':'Squirtle'},{'pokemon':'Wartortle'},
+            {'pokemon':'Blastoise'},{'pokemon':'Caterpie'},{'pokemon':'Metapod'},{'pokemon':'Butterfree'},
+            {'pokemon':'Weedle'},{'pokemon':'Kakuna'},{'pokemon':'Beedrill'},{'pokemon':'Pidgey'},
+            {'pokemon':'Pidgeotto'},{'pokemon':'Pidgeot'},{'pokemon':'Rattata'},{'pokemon':'Raticate'},
+            {'pokemon':'Spearow'},{'pokemon':'Fearow'},{'pokemon':'Ekans'},{'pokemon':'Arbok'},
+            {'pokemon':'Pikachu'},{'pokemon':'Raichu'},{'pokemon':'Sandshrew'},{'pokemon':'Sandslash'},
+            {'pokemon':'Nidoran(f)'},{'pokemon':'Nidorina'},{'pokemon':'Nidoqueen'},{'pokemon':'Nidoran(m)'},
+            {'pokemon':'Nidorino'},{'pokemon':'Nidoking'},{'pokemon':'Clefairy'},{'pokemon':'Clefable'},
+            {'pokemon':'Vulpix'},{'pokemon':'Ninetails'},{'pokemon':'Jigglypuff'},{'pokemon':'Wigglytuff'},
+            {'pokemon':'Zubat'},{'pokemon':'Golbat'},{'pokemon':'Oddish'},{'pokemon':'Gloom'},{'pokemon':'Vileplume'},
+            {'pokemon':'Paras'},{'pokemon':'Parasect'},{'pokemon':'Venonat'},{'pokemon':'Venomoth'},{'pokemon':'Diglet'},
+            {'pokemon':'Dugtrio'}]
+
+time = []
+pc = []
+
+
+def ver_time():
+    print('=' * 6 + 'TIME' + '=' * 6)
+    for c in time:
+        print('=' * 6)
+        for x, z in c.items():
+            print(f'{x}={z}')
+
+def ver_pc():
+    print('=' * 6 + 'PC' + '=' * 6)
+    for c in pc:
+        print('=' * 6)
+        for x, z in c.items():
+            print(f'{x}={z}')
+
+
+pokebolas = 10
+while True:
+    try:
+        if pokebolas <= 0:
+            print('GAME OVER')
+            sleep(5)
+            break
+        if len(time)+len(pc)==150:
+            print('PARABENS VOCE COMPLETOU A POKEDEX........')
+            sleep(5)
+            for c  in pokemons:
+                print('='*20)
+                for x,z in c.items():
+                    print(f'{x}={z}')
+            break
+        item = randint(1, 3)
+        andar = str(input('andar[w/a/s/d] ou [m] para ver o menu:'))[0].strip().lower()
+        if 'm' in andar:
+            while True:
+                print('MENU:pc/time/sair/total/pokebolas')
+                opc = str(input('o quer voce quer ver?'))
+                if 'sair' in opc:
+                    break
+                if 'time' in opc:
+                    if len(time) == 0:
+                        print('voce nao tem nenhum pokemon no time')
+                    else:
+                        ver_time()
+                if 'pc' in opc:
+                    if len(pc) == 0:
+                        print('voce nao tem nenhum pokemon no pc')
+                    else:
+                        ver_pc()
+                if 'total' in opc:
+                    numerototalpokedex=len(time)+len(pc)
+                    print(f'voce tem {numerototalpokedex} e ainda falta {150-(numerototalpokedex)}')
+                if 'pokebola' in opc:
+                    print(f'voce tem {pokebolas} pokebolas')
+        if item == 1:
+            pokebolas = pokebolas + 1
+            print(f'voce ganhou uma pokebola,agora voce possui {pokebolas}')
+            critico=randint(1,5)
+            if critico==1:
+                print('voce algumas algumas pokebolas a mais')
+                sleep(1)
+                pokebolas=pokebolas+randint(1,6)
+            sleep(0.5)
+        while andar != 'a' and andar != 'w' and andar != 'd' and andar != 's':
+            andar = str(input('andar[w/a/s/d]:'))[0].strip().lower()
+        if 'w' or 's' or 'a' or 'd' in andar:
+            wild_pokemon = randint(0, 10)
+            if wild_pokemon <= 4:
+                print('um pokemon apareceu!!!!')
+                sleep(0.8)
+                poke = choice(pokemons)
+                pokemon_capturado_pc=list(filter(lambda  x:  x['pokemon']==poke['pokemon'] , pc))
+                pokemon_capturado_time =list(filter(lambda x:  x['pokemon']==poke['pokemon'] , time))
+                if len(pokemon_capturado_pc)==0 and len(pokemon_capturado_time)==0:
+                    for x, z in poke.items():
+                        print(f'{x}={z}')
+                    print('quer pegar[s/n]:?')
+                    pegar = str(input('sim ou nao?'))[0].strip().lower()
+                    while pegar != 's' and pegar != 'n':
+                        print('invalido')
+                        pegar = str(input('sim ou nao?'))[0].strip().lower()
+                    if 's' in pegar:
+                        chance = randint(0, 14)
+                        while True:
+                            if chance <= 2:
+                                print(f'{poke["pokemon"]} fugiu!!!')
+                                sleep(1)
+                                break
+                            if chance >= 3 and chance <= 5:
+                                pokebolas = pokebolas - 1
+                                print(f'errou a pokebola e agora voce possui {pokebolas}')
+                                sleep(0.5)
+                            if chance >= 6 and chance <= 7:
+                                pokebolas = pokebolas - 1
+                                print(f'pokebola quebrou e agora voce possui {pokebolas}')
+                                sleep(0.5)
+                                break
+                            if chance >= 8:
+                                print(f'parabens!!! voce pegou um {poke["pokemon"]}')
+                                sleep(0.5)
+                                pokebolas = pokebolas - 1
+                                if len(time) <= 6:
+                                    time.append(poke)
+                                else:
+                                    print(f'voce ja tem 6 pokemons,{poke["pokemon"]} foi movido para o pc')
+                                    sleep(0.5)
+                                    pc.append(poke)
+                                break
+                            tentar_denovo = str(input('quer tentar denovo[S/N]?'))[0].strip().lower()
+                            chance = randint(0, 12)
+                            while tentar_denovo != 'n' and tentar_denovo != 's':
+                                print('invalido')
+                                tentar_denovo = str(input('quer tentar denovo[S/N]?'))[0].strip().lower()
+                            if 'n' in tentar_denovo:
+                                break
+                else:
+                    print(f'voce ja tem esse pokemon {poke["pokemon"]}')
+                    sleep(3)
+
+    except (ValueError, IndexError)as erro_um:
+        print(f'erro :{erro_um}')
