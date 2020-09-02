@@ -1,0 +1,96 @@
+
+def cadastrar_produtos(estoque,**kwargs):
+    """
+    estoque=list
+    """
+    try:
+        kwargs['produto']=str(input('produto:'))
+        kwargs['preco']=float(input('preço:'))
+        kwargs['quantidade']=int(input('quantidade para o estoque:'))
+        estoque.append(kwargs.copy())
+        kwargs.clear()
+    except:
+        print('erro...')
+
+def remover_produto(estoque):
+    if len(estoque)==0:
+        print('nao tem produto')
+    else:
+        produto=str(input('produto'))
+        p=list(filter(lambda x:x['produto']==produto,estoque))
+        if len(p)==0:
+            print(f'{produto} nao esta no cadastro')
+        else:
+            for c in range(len(estoque)):
+                if estoque[c]['produto'] == produto:
+                    del estoque[c]
+                    break
+
+
+
+
+
+
+
+def produto_mais_caro_ou_mais_barato(estoque):
+    if len(estoque)==0:
+        print('nao tem ninguem')
+    else:
+        opc=str(input('mais barato ou o mais caro produto[B/C]:'))[0].lower()
+        if 'c' in opc:
+            n=max(estoque,key=lambda x:x['preco'])
+            for x,z in n.items():
+                print(f'{x}={z}')
+        else:
+            n = min(estoque, key=lambda x: x['preco'])
+            for x, z in n.items():
+                print(f'{x}={z}')
+
+def todos(estoque):
+    if len(estoque)==0:
+        print('nao tem nenhum prodduto')
+    else:
+        for c in estoque:
+            print('='*8)
+            for x,z in c.items():
+                print(f'{x}={z}')
+
+
+def menu():
+    menu={'0':'fechar','1':'ver menu','2':'cadastrar novos produtos',
+          '3':'produto mais caro ou barato','4':'analisar produto','5':'remover produto','6':'todos os produtos'}
+    print('=' * 30)
+    for x,z in menu.items():
+        print(f'{x}={z}')
+    print('='*30)
+
+def ver_produto(estoque,produto):
+    p=list(filter(lambda x:x['produto']==produto,estoque))
+    if len(p)==0:
+        print(f'{produto} nao esta no cadastro')
+    else:
+        [[print(f'{x}={z}')for x,z in c.items()]for c in p]
+
+
+
+
+menu()
+estoque=[]
+while True:
+
+        opc=int(input('opcao:'))
+        if opc==0:
+            break
+        if opc == 1:
+            menu()
+        if opc==2:
+            cadastrar_produtos(estoque)
+        if opc==3:
+            produto_mais_caro_ou_mais_barato(estoque)
+        if opc==4:
+            ver_produto(estoque,str(input('produto:')))
+        if opc==5:
+            remover_produto(estoque)
+        if opc==6:
+            todos(estoque)
+
