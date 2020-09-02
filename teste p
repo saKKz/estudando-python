@@ -12,30 +12,46 @@ def cadastrar_produtos(estoque,**kwargs):
     except:
         print('erro...')
 
+
+
+
+
+
+
+
+
 def adicionar(estoque):
-    if len(estoque)==0:
-        print('estoque vazio')
-    else:
-        produto=str(input('produto'))
-        p=list(filter(lambda x:x['produto']==produto,estoque))
-        if len(p)==0:
-            print(f'{produto}nao esta cadastrado')
+    try:
+        if len(estoque)==0:
+            print('estoque vazio')
         else:
-            p[0]['cor']='azul'
+            produto=str(input('produto'))
+            p=list(filter(lambda x:x['produto']==produto,estoque))
+            if len(p)==0:
+                print(f'{produto}nao esta cadastrado')
+            else:
+                add=str(input('o que voce quer adicionar'))
+                p[0][add]=str(input(f'{add}:'))
+    except:
+        print('erro...')
 
 def remover_produto(estoque):
-    if len(estoque)==0:
-        print('nao tem produto')
-    else:
-        produto=str(input('produto'))
-        p=list(filter(lambda x:x['produto']==produto,estoque))
-        if len(p)==0:
-            print(f'{produto} nao esta no cadastro')
+    try:
+        if len(estoque)==0:
+            print('nao tem produto')
         else:
-            for c in range(len(estoque)):
-                if estoque[c]['produto'] == produto:
-                    del estoque[c]
-                    break
+            produto=str(input('produto'))
+            p=list(filter(lambda x:x['produto']==produto,estoque))
+            if len(p)==0:
+                print(f'{produto} nao esta no cadastro')
+            else:
+                for c in range(len(estoque)):
+                    if estoque[c]['produto'] == produto:
+                        del estoque[c]
+                        break
+
+    except:
+        print('erro...')
 
 
 
@@ -44,18 +60,22 @@ def remover_produto(estoque):
 
 
 def produto_mais_caro_ou_mais_barato(estoque):
-    if len(estoque)==0:
-        print('nao tem ninguem')
-    else:
-        opc=str(input('mais barato ou o mais caro produto[B/C]:'))[0].lower()
-        if 'c' in opc:
-            n=max(estoque,key=lambda x:x['preco'])
-            for x,z in n.items():
-                print(f'{x}={z}')
+    try:
+        if len(estoque)==0:
+            print('nao tem ninguem')
         else:
-            n = min(estoque, key=lambda x: x['preco'])
-            for x, z in n.items():
-                print(f'{x}={z}')
+            opc=str(input('mais barato ou o mais caro produto[B/C]:'))[0].lower()
+            if 'c' in opc:
+                n=max(estoque,key=lambda x:x['preco'])
+                for x,z in n.items():
+                    print(f'{x}={z}')
+            else:
+                n = min(estoque, key=lambda x: x['preco'])
+                for x, z in n.items():
+                    print(f'{x}={z}')
+    except:
+        print('erro...')
+
 
 def todos(estoque):
     if len(estoque)==0:
@@ -106,4 +126,6 @@ while True:
             todos(estoque)
         if opc==7:
             adicionar(estoque)
+        if opc==8:
+            alterar(estoque)
 
