@@ -1,0 +1,119 @@
+aluno = []
+
+
+def cadastro_aluno(**kwargs):
+    try:
+        while True:
+            kwargs['nome'] = str(input('nome:')).title()
+            al = list(filter(lambda x: kwargs['nome'] == x['nome'], aluno))
+            if len(al)==0:
+                break
+            else:
+                print(f'{kwargs["nome"]} ja estar cadastrado')
+        kwargs['ensino'] = str(input('[fundamental/medio]:'))[0].strip().lower()
+        while kwargs['ensino'] != 'f' and kwargs['ensino'] != 'm':
+            print('invalido...')
+            kwargs['ensino'] = str(input('[fundamental/medio]:'))[0].strip().lower()
+        if kwargs['ensino'] == 'f':
+            kwargs['turma'] = int(input('serie:'))
+            while kwargs['turma'] < 6 or kwargs['turma'] > 9:
+                print(f'{kwargs["turma"]} invalido')
+                kwargs['turma'] = int(input('serie:'))
+        else:
+            kwargs['turma'] = int(input('serie:'))
+            while kwargs['turma'] < 1 or kwargs['turma'] > 3:
+                print(f'{kwargs["turma"]} invalido')
+                kwargs['turma'] = int(input('serie:'))
+        turno = str(input('[manha/noite]:'))[0].strip().lower()
+        while turno != 'm' and turno != 'n':
+            print(f'{turno} invalido')
+            turno = str(input('[manha/noite]:'))[0].strip().lower()
+        kwargs['turno'] = turno
+        kwargs['nota av1']=None
+        kwargs['nota av2'] = None
+        kwargs['media']=None
+        kwargs["aprovação"]=None
+        aluno.append(kwargs.copy())
+        kwargs.clear()
+    except:
+        print('erro....')
+
+
+
+def ver_turmas(serie,turno):
+    s=list(filter( lambda x:serie==x['turma'],aluno))
+    t=list(filter(lambda x:turno==x['turno'],s))
+    for c in t:
+        print('='*10)
+        for x,z in c.items():
+            print(f'{x}={z}')
+
+def ver_maior_media(serie,turno):
+    try:
+        s=list(filter( lambda x:serie==x['turma'],aluno))
+        t=list(filter(lambda x:turno==x['turno'],s))
+        maior=max(t,key=lambda x:x['media'])['nome']
+        print(f'maior media do {serie} ano  pelo {turno} foi de {maior} ')
+    except:
+        print(f'nao tem ninguem em ai  ')
+
+def adicionar_nota_avs(al):
+    try:
+        aln=list(filter( lambda x: al ==x['nome'],aluno))
+        if len(aln)==0:
+            print(f'{al}nao estar cadastrado ')
+        else:
+            aln[0]['nota av1']=float(input('nota av1'))
+            while aln[0]["nota av1"]>10:
+                print('invalido')
+                aln[0]['nota av1'] = float(input('nota av1'))
+            aln[0]['nota av2'] = float(input('nota av2'))
+            while aln[0]["nota av2"]>10:
+                print('invalido')
+                aln[0]['nota av2'] = float(input('nota av2'))
+            media=(aln[0]["nota av1"]+aln[0]["nota av2"])/2
+            aln[0]['media']=media
+            if media>=6:
+                aln[0]['aprovação']='aprovado'
+            else:
+                aln[0]['aprovação'] ='reprovado'
+
+    except:
+        print('erro......')
+
+def rank_media():
+    try:
+        rank=list(sorted(aluno,key=lambda x:x['media'],reverse=True))
+        for c in rank:
+            print('='*10)
+            for z,x in c.items():
+                print(f'{z}={x}')
+    except:
+        print('nao tem ninguem ai')
+
+def ver_geral():
+    for c in aluno:
+        print('='*10)
+        for x,z in c.items():
+            print(f'{x}={z}')
+while True:
+    try:
+        opc=int(input('opcao:'))
+        if opc==0:
+            break
+        if opc==1:
+            cadastro_aluno()
+        if opc==2:
+            adicionar_nota_avs(str(input('aluno:')).title())
+        if opc==3:
+            ver_turmas(int(input('serie:')),str(input('turno:')))
+        if opc==4:
+            print('menu:0 sair,1:cadastrar,2:adicionar notas,3:ver turmas,5:maior media,6:rank maior media')
+        if opc==5:
+            ver_maior_media(int(input('serie:')),str(input('turno:')))
+        if opc==6:
+            rank_media()
+        if opc==7:
+            ver_geral()
+    except:
+        print('erro')
