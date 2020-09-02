@@ -12,6 +12,17 @@ def cadastrar_produtos(estoque,**kwargs):
     except:
         print('erro...')
 
+def adicionar(estoque):
+    if len(estoque)==0:
+        print('estoque vazio')
+    else:
+        produto=str(input('produto'))
+        p=list(filter(lambda x:x['produto']==produto,estoque))
+        if len(p)==0:
+            print(f'{produto}nao esta cadastrado')
+        else:
+            p[0]['cor']='azul'
+
 def remover_produto(estoque):
     if len(estoque)==0:
         print('nao tem produto')
@@ -58,7 +69,7 @@ def todos(estoque):
 
 def menu():
     menu={'0':'fechar','1':'ver menu','2':'cadastrar novos produtos',
-          '3':'produto mais caro ou barato','4':'analisar produto','5':'remover produto','6':'todos os produtos'}
+          '3':'produto mais caro ou barato','4':'analisar produto','5':'remover produto','6':'todos os produtos','7':'adicionar dado'}
     print('=' * 30)
     for x,z in menu.items():
         print(f'{x}={z}')
@@ -93,4 +104,6 @@ while True:
             remover_produto(estoque)
         if opc==6:
             todos(estoque)
+        if opc==7:
+            adicionar(estoque)
 
