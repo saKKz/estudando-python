@@ -1,0 +1,13 @@
+def titulo(funcao):
+    def numero(a,b):
+        print('-'*10)
+        funcao(a,b)
+        print('-'*10)
+    return numero
+
+
+@titulo
+def soma(a,b):
+    print(f'     {a+b}')
+
+soma(1,4)
