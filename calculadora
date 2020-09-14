@@ -1,0 +1,27 @@
+
+def calculadora(funcao):
+    def numeros(*args,**kwargs):
+        return funcao(*args,**kwargs)
+    return numeros
+
+
+
+@calculadora
+def soma(*args):
+    total=0
+    for c in range(len(args)):
+        total=args[c] + total
+    return total
+
+@calculadora
+def diminuir(*args):
+    total=0
+    for c in range(len(args)):
+        total=args[c] - total
+    return total
+
+
+
+
+print(soma(4,5,3,2))
+print(diminuir(2,10))
