@@ -1,0 +1,52 @@
+import pymysql
+
+def conectar():
+    try:
+        c=pymysql.connect(
+            db='agrupamento',
+            host='localhost',
+            user=str(input('usuario:')),
+            passwd=str(input('senha:'))
+        )
+        return c
+    except :
+        print(f'nao foi possivel conectar {e}')
+
+
+def desconectar(c):
+    if c==True:
+        c.close()
+
+
+def listar_fabricantes():
+    c=conectar()
+    cursor=c.cursor()
+    cursor.execute('select * from fabricantes;')
+    fabricantes=cursor.fetchall()
+    if len(fabricantes)==0:
+        print('nao tem fabricantes')
+    else:
+        x=list(map(lambda x:{'ID':x[0],'Fabricante':x[1]},fabricantes))
+        for c in x:
+            print('='*6)
+            for xx,zz in c.items():
+                print(f'{xx}={zz}')
+    desconectar(c)
+
+
+def listar_prdutos():
+    c=conectar()
+    cursor=c.cursor()
+    cursor.execute('select p.id,f.nome as fabricante,t.nome as tipo,p.nome as produto,p.quantidade from fabricantes '
+                   'as f, '
+                   'produtos as p,tipos as t  where f.id=p.id_fabricante and t.id=p.id_tipo order by f.nome; ')
+    produtos=cursor.fetchall()
+    if len(produtos)==0:
+        print('nao tem produtos')
+    else:
+        x = list(map(lambda x: {'ID produto': x[0], 'Fabricante': x[1],'tipo produto':x[2],'produto':x[3],'quantidade no estoque':x[4]},produtos))
+        for t in x:
+            print('-'*10)
+            for i,o in t.items():
+                print(f'{i}={o}')
+    desconectar(c)
