@@ -1,0 +1,274 @@
+import pymysql
+
+
+def conectar():
+    try:
+        con = pymysql.connect(
+            db='teste_python',
+            host='localhost',
+            user=str(input('usuario:')),
+            passwd=str(input('senha:')),
+        )
+
+        return con
+    except pymysql.err.OperationalError as erro:
+        print(f'nao foi possivel conectar.... {erro}')
+    except ValueError as erro2:
+        print(f'erro....{erro2}')
+    except:
+        print(f'nao foi possivel conectar...... senha errada!!!')
+
+
+def desconectar(con):
+    if con:
+        con.close()
+
+
+def inserir_tipos():
+    try:
+        con = conectar()
+        cursor = con.cursor()
+
+        tipagem = str(input('tipo:'))
+
+        lista = con.cursor()
+        lista.execute('select * from tipos')
+        lista_tipos = lista.fetchall()
+
+        x = list(filter(lambda xx: xx[1] == tipagem, lista_tipos))
+
+        if len(x) >= 1:
+            print(f'nao foi possivel adicionar este tipo:{tipagem} ja esta no cadastro')
+
+        else:
+            cursor.execute(f"INSERT INTO  tipos (tipo) values ('{tipagem}')")
+            con.commit()
+            if cursor.rowcount == 1:
+                print(f'{tipagem} foi adicionado com sucesso')
+    except:
+        print('erro........')
+
+
+def ver_tipor():
+    try:
+        con = conectar()
+        cursor = con.cursor()
+        cursor.execute('select * from tipos')
+        tipos = cursor.fetchall()
+        if len(tipos) == 0:
+            print('nao tem tipos')
+        else:
+            for t in tipos:
+                print(f'id:{t[0]}'
+                      f' tipo:{t[1]}')
+        desconectar(con)
+    except:
+        print('erro')
+
+
+def inserir_fabricantes():
+    try:
+        con = conectar()
+        cursor = con.cursor()
+
+        fabricante = str(input('fabricante:')).title()
+
+        lista = con.cursor()
+        lista.execute('select * from fabricantes')
+        lista_fabricantes = lista.fetchall()
+
+        x = list(filter(lambda xx: xx[1] == fabricante, lista_fabricantes))
+
+        if len(x) >= 1:
+            print(f'nao foi possivel adicionar este tipo:({fabricante}) ja esta no cadastro')
+
+
+        else:
+            cursor.execute(f"INSERT INTO  fabricantes (fabricante) values ('{fabricante}')")
+            con.commit()
+            if cursor.rowcount == 1:
+                print(f'{fabricante} foi adicionado com sucesso')
+    except:
+        print('erro........')
+
+
+def ver_fabricantes():
+    try:
+        con = conectar()
+        cursor = con.cursor()
+        cursor.execute('select * from fabricantes')
+        fabricantes = cursor.fetchall()
+        if len(fabricantes) == 0:
+            print('nao tem fabricantes')
+        else:
+            for t in fabricantes:
+                print(f'id:{t[0]}'
+                      f' fabricante:{t[1]}')
+        desconectar(con)
+    except:
+        print('erro')
+
+
+def inserir_produto():
+    try:
+        con = conectar()
+        cursor = con.cursor()
+
+        produto = str(input('produto:')).title()
+        idtipo = int(input('id tipo:'))
+        idfab = int(input('id fabricante:'))
+        preco = float(input('preco do produto:'))
+
+        lista = con.cursor()
+        lista.execute('select * from produtos')
+        lista_produtos = lista.fetchall()
+
+        x = list(filter(lambda xx: xx[1] == produto, lista_produtos))
+        print(x)
+        if len(x) >= 1:
+            print(f'nao foi possivel adicionar este tipo:{produto} ja esta no cadastro')
+        else:
+            cursor.execute(
+                f"INSERT INTO  produtos (produto,id_tipos,id_fabricantes,preco) values ('{produto}',{idtipo},{idfab},{preco}) ")
+            con.commit()
+            if cursor.rowcount == 1:
+                print(f'{produto} foi adicionado com sucesso')
+    except pymysql.err.IntegrityError as erro:
+        print(f'erro.....id errada:{erro}')
+    except:
+        print('erro........')
+
+
+def ver_produtos():
+    try:
+        con = conectar()
+        cursor = con.cursor()
+        cursor.execute(
+            f"select p.id,p.produto,f.fabricante,t.tipo,p.preco from produtos as p,fabricantes as f,tipos as t where t.id=p.id_tipos and f.id=p.id_fabricantes;")
+        produtos = cursor.fetchall()
+        pp = list(
+            map(lambda x: {'ID': x[0], 'produto': x[1], 'fabricante': x[2], 'tipo': x[3], 'preco': x[4]}, produtos))
+        for prod in pp:
+            print('=' * 15)
+            for x, z in prod.items():
+                print(f'{x}={z}')
+        desconectar(con)
+    except:
+        print('erro')
+
+
+def inserir_clientes():
+    con = conectar()
+    lista_clientes = con.cursor()
+    cli = con.cursor()
+    nome = str(input('nome:')).title()
+    sobrenome = str(input('sobrenome:'))
+    cpf = str(input('cpf:'))
+    lista_clientes.execute('select * from clientes;')
+    a = lista_clientes.fetchall()
+    x = list(filter(lambda xx: xx[3] == cpf, a))
+
+    if len(x) == 0:
+        cli.execute(f"insert into clientes (nome,sobrenome,cpf) values ('{nome}','{sobrenome}','{cpf}');")
+        con.commit()
+        if cli.rowcount == 1:
+            print('cliente adicionado com sucesso')
+    else:
+        print(f' este cpf:{cpf} ja estar no cadastro')
+    desconectar(con)
+
+
+def ver_clientes():
+    con = conectar()
+    cli = con.cursor()
+    cli.execute('select * from clientes;')
+    lista_cli = cli.fetchall()
+    x = list(map(lambda x: {'id': x[0], 'nome': x[1], 'sobrenome': x[2], 'cpf': x[3]}, lista_cli))
+    if len(lista_cli) == 0:
+        print('nao tem clientes')
+    else:
+        for c in x:
+            print('=' * 10)
+            for xx, zz in c.items():
+                print(f'{xx}={zz}')
+
+    desconectar(con)
+
+
+def deletar():
+    try:
+        con = conectar()
+        t = con.cursor()
+        p = con.cursor()
+        f = con.cursor()
+        c = con.cursor()
+        print('o que voce quer excluir?[1]:tipo [2]:produto [3]:fabricante [4]:clientes')
+        opc = int(input('opcao:'))
+        if opc > 4:
+            print(f'opcao invalida')
+        else:
+            if opc == 1:
+                tipo = str(input('tipo:'))
+                t.execute(f"delete from tipos where tipo='{tipo};' ")
+                con.commit()
+                if t.rowcount == 1:
+                    print(f'tipo:{tipo} foi excluido')
+                else:
+                    print(f'{tipo} nao esta no cadastro')
+            if opc == 2:
+                produto = str(input('produto:'))
+                p.execute(f"delete from produtos where produto='{produto};' ")
+                con.commit()
+                if p.rowcount == 1:
+                    print(f'tipo:{produto} foi excluido')
+                else:
+                    print(f'{produto} nao esta no cadastro')
+            if opc == 3:
+                fabricante = str(input('fabricante:'))
+                f.execute(f"delete from fabricantes where fabricante='{fabricante};' ")
+                con.commit()
+                if f.rowcount == 1:
+                    print(f'tipo:{fabricante} foi excluido')
+                else:
+                    print(f'{fabricante} nao esta no cadastro')
+            if opc == 4:
+                cpf = str(input('cpf:'))
+                c.execute(f"delete from clientes where cpf='{cpf}';")
+                con.commit()
+                if c.rowcount == 1:
+                    print(f'cpf:{cpf} foi excluido')
+                else:
+                    print(f'{cpf} nao esta no cadastro')
+            desconectar(con)
+    except:
+        print('erro')
+
+
+def menu():
+    try:
+        m = {'1': 'inserir tipos', '2': 'ver tipos', '3': 'inserir produtos', '4': 'ver produtos',
+             '5': 'inserir fabricantes', '6': 'ver fabricantes', '7': 'deletar', '8': 'inserir clientes',
+             '9': 'ver clientes'}
+        for x, z in m.items():
+            print(f'{x}={z}')
+        opc = int(input('opcao:'))
+        if opc == 1:
+            inserir_tipos()
+        if opc == 2:
+            ver_tipor()
+        if opc == 3:
+            inserir_produto()
+        if opc == 4:
+            ver_produtos()
+        if opc == 5:
+            inserir_fabricantes()
+        if opc == 6:
+            ver_fabricantes()
+        if opc == 7:
+            deletar()
+        if opc == 8:
+            inserir_clientes()
+        if opc == 9:
+            ver_clientes()
+    except:
+        print('erro.......')
