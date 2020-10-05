@@ -1,0 +1,109 @@
+class Pessoa:
+    from random import randint
+
+    # atributo de classe:onde todos os objetos instanciados teram este atributo
+    altura = randint(100, 250)
+    pot = 10
+    oii = 'oi'
+
+    # metodos de classe nao estao vincualos a instancia mas sim a classe
+    # metodos de classe nao tem acesso aos atributos
+
+    # obs:cls == classe
+    @classmethod
+    def oi(cls):
+        print(f'{cls.oii}')
+
+    @classmethod
+    def peido(cls, lul):
+        print(lul)
+
+    @classmethod
+    def emote(cls, *args, **kwargs):
+        if 'nome' in kwargs and kwargs['nome'] == 'Saulo':
+            print('eai saulo')
+        else:
+            print('saulo nao ta ai')
+
+    # metodos estaticos nao possuem acesso  a classe e a instancia
+    @staticmethod
+    def estatico():
+        print('estatico')
+
+    @staticmethod
+    def soma(*args):
+        n = []
+        for c in args:
+            n.append(c)
+        print(sum(n))
+
+    # atributos de classes e metodos de classe somente a propria classe tem acesso
+
+    # construtor __init__:metodo especial para construcao de objetos
+    def __init__(self, nome, sobrenome, dedos):
+        from random import randint, choice
+        # atributos instancia:caracteristicas do objeto
+        self.nome = nome
+        self.sobrenome = sobrenome
+        self.peso = randint(50, 100)
+        self.altura = Pessoa.altura
+        self.cor = choice(['preto', 'branco', 'amarelo', 'pardo'])
+        self.cabelo = str(input('tipo de cabelo'))
+        self.dedos = dedos + Pessoa.pot
+        print(self.palavrao())
+        self.cu = self.nome
+        # atributo privado
+        self.__ala = Pessoa.pot + 5000
+
+        # obs:os atributos nao sao obrigados  a serem declarados ex:peso
+
+    # metodo instancia (funcao) tem acesso aos atributos de instancia mas nao de classe
+    # metodos de intancia tem acesso aos atributos
+    def nome_completo(self):
+        return f'{self.nome} {self.sobrenome}'
+
+    # self=instancia auto serviço
+    def gostos(self, *args):
+        g = []
+        for c in args:
+            g.append(c)
+        return g
+
+    def cor_cabelo(self):
+        from random import choice
+        cores = choice(['preto', 'loiro', 'ruivo'])
+        if cores == 'preto':
+            return f'{self.cabelo} da cor {cores}'
+        if cores == 'loiro':
+            return f'{self.cabelo} da cor {cores}'
+        if cores == 'ruivo':
+            return f'{self.cabelo} da cor {cores}'
+
+    def gravidade_lua(self, gravidade):
+        return f'{(self.peso * gravidade)} '
+
+    def palavrao(self):
+        from random import choice
+        palav = choice(['porra', 'caralho'])
+        return palav
+
+
+saulo = Pessoa('Saulo', 'Araujo', 5)
+gabriel = Pessoa('Gabriel', 'araujo', 8)
+print(saulo.nome, saulo.sobrenome, saulo.peso, saulo.altura, saulo.cor)
+print(gabriel.nome, gabriel.sobrenome, gabriel.peso, gabriel.altura, gabriel.cor)
+print(saulo.__dict__)
+print(gabriel.__dict__)
+print(saulo.nome_completo())
+print(gabriel.nome_completo())
+print(saulo.gostos('muay thai', 'futebol', 'filmes', 'series'))
+print(gabriel.gostos('basquete', 'cantar'))
+print(saulo.cor_cabelo())
+print(gabriel.cor_cabelo())
+print(saulo.gravidade_lua(int(input('gravidade:'))))
+print(gabriel.gravidade_lua(5))
+Pessoa.oi()
+Pessoa.peido('gemm')
+Pessoa.emote(nome='Saulo')
+Pessoa.estatico()
+Pessoa.soma(1, 2, 3)
