@@ -1,0 +1,75 @@
+
+class Pessoas:
+    imposto = 0.2
+    pessoas = []
+
+    @classmethod
+    def comprimentar(cls):
+        from  random import choice
+
+
+        x = list(map(lambda x: {'comprimento': choice(['oi','salve','ola']), 'nome': x['nome']}, Pessoas.pessoas))
+        for c in x:
+            for zz in c.values():
+                print(f"{zz}", end=' ')
+
+    def __init__(self, nome, altura, peso, **kwargs):
+        while True:
+            kwargs['nome'] = self.nome = nome
+            kwargs['altura'] = self.altura = altura
+            kwargs['peso'] = self.peso = peso
+            print(self.nome, end=' ')
+            kwargs['cpf'] = self.cpf = int(input('CPF:'))
+            x=list(filter(lambda x:x['cpf']==self.cpf,Pessoas.pessoas))
+            if len(x)==0:
+                Pessoas.pessoas.append(kwargs.copy())
+                kwargs.clear()
+                break
+            else:
+                print(f'este cpf:{self.cpf} ja esta no cadastro......')
+
+    def calculo_imc(self):
+        altura = self.altura * 2
+        imc = self.peso / altura
+        print(f'seu imc:{imc}', end=' ')
+        if imc <= 17:
+            print('muito abaixo do peso')
+        elif 17.5 <= imc <= 18.49:
+            print('peso abaixo do ideal')
+        elif 18.5 <= imc <= 24.99:
+            print('peso ideal')
+        elif 25 <= imc <= 29.99:
+            print('peso acima do ideal')
+        elif 30 <= imc <= 34.99:
+            print('obesidade grau I')
+        elif 35 <= imc <= 39.99:
+            print('obesidade grau II')
+        else:
+            print('obesidade grau III')
+
+    def compra_produtos(self, **kwargs):
+
+        p = []
+        while True:
+            kwargs['produto'] = str(input('produto:'))
+            kwargs['preco'] = int(input('preco:'))
+            c = input('continuar?')
+            p.append(kwargs.copy())
+            kwargs.clear()
+            if 'n' in c:
+                break
+        print('==PRODUTOS==')
+        for c in p:
+            print('=========')
+            for x, z in c.items():
+                print(f'{x}={z}')
+        i = list(map(lambda x: x['preco'], p))
+        soma = sum(i)
+        print(f'soma total dos precos comprados foi:{soma}')
+        print(f'valor final junto com os impostos foi:{(soma * Pessoas.imposto) + soma}')
+
+
+saulo = Pessoas('saulo', 1.80, 89, )
+gabriel = Pessoas('gabriel', 1.75, 76,)
+
+print(Pessoas.pessoas)
