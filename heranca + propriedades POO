@@ -1,0 +1,80 @@
+class Pessoa:
+    def __init__(self, nome, sobrenome, idade, altura, peso):
+        self.__nome = nome.title()
+        self.__sobrenome = sobrenome
+        self.__idade = idade
+        self.__altura = altura
+        self.__peso = peso
+
+    @property
+    def nome(self):
+        return self.__nome
+
+    @property
+    def sobrenome(self):
+        return self.__sobrenome
+
+    @property
+    def nome_completo(self):
+        return f'{self.__nome} {self.__sobrenome}'
+
+    @property
+    def idade(self):
+        return self.__idade
+
+    @property
+    def altura(self):
+        return self.__altura
+
+    @property
+    def peso(self):
+        return self.__peso
+
+    @property
+    def caracteristicas_fisicas(self):
+        return f'altura:{self.__altura}/' \
+               f'idade:{self.__idade}/' \
+               f'peso:{self.__peso}'
+
+    @idade.setter
+    def idade(self, nova_idade):
+        self.__idade = nova_idade
+
+    @peso.setter
+    def peso(self, novo_peso):
+        self.__peso = novo_peso
+
+
+class Aluno(Pessoa):
+
+    def __init__(self, nome, sobrenome, idade, altura, peso, matricula):
+        super().__init__(nome, sobrenome, idade, altura, peso)
+        self.__matricula = matricula
+
+    @property
+    def matricula(self):
+        return self.__matricula
+
+    @matricula.setter
+    def matricula(self, nova_matricula):
+        self.__matricula = nova_matricula
+
+
+    def dados_aluno(self):
+        return f'{self.nome} {self.sobrenome} {self.__matricula}'
+
+
+saulo = Aluno('saulo', 'araujo', 22, 180, 85, 201703021428)
+livia=Aluno('livia','araujo',20,175,74,8484822)
+print(saulo.nome)
+print(saulo.sobrenome)
+print(saulo.nome_completo)
+print(saulo.caracteristicas_fisicas)
+print(saulo.idade)
+saulo.idade = 50
+print(saulo.idade)
+print(saulo.idade)
+print(saulo.matricula)
+print(saulo.dados_aluno())
+print(livia.dados_aluno())
+print(saulo.nome_completo)
