@@ -1,0 +1,74 @@
+class Pessoa:
+    def __init__(self, nome, idade, altura, **kwargs):
+        self.__p = []
+        kwargs['nome'] = self.__nome = nome
+        kwargs['idade'] = self.__idade = idade
+        kwargs['altura'] = self.__altura = altura
+        self.__p.append(kwargs.copy())
+        kwargs.clear()
+
+    def ver_dados(self):
+        for c in self.__p:
+            print(f'{"=" * 3}{"DADOS"}{"=" * 3}')
+            for x, z in c.items():
+                print(f'{x}={z}')
+
+
+class Agenda:
+    cadastro = []
+
+    @classmethod
+    def ver_agenda(cls):
+        if len(Agenda.cadastro) == 0:
+            print('agenda vazia')
+        else:
+            for c in Agenda.cadastro:
+                print('=' * 8)
+                for x, z in c.items():
+                    print(f'{x}={z}')
+
+    @classmethod
+    def remover_pessoa(cls):
+        try:
+            p = str(input('pessoa para remover:'))
+            x = list(filter(lambda xx: xx['nome'] == p, Agenda.cadastro))
+            for c in range(len(Agenda.cadastro)):
+                if Agenda.cadastro[c]['nome'] == x[0]['nome']:
+                    del Agenda.cadastro[c]
+                    break
+        except:
+            print('erro')
+
+    @classmethod
+    def posicao_agenda(cls):
+
+        p = str(input('pessoa para ver a sua posicao:'))
+        x = list(filter(lambda xx: xx['nome'] == p, Agenda.cadastro))
+        if len(x) == 0:
+            print(f'{p} nao esta na agenda')
+        else:
+            s = list(map(lambda x: x['nome'], Agenda.cadastro))
+            print(f'{p} esta na posicao {s.index(p)} na agenda')
+
+    def __init__(self, pessoa, **kwargs):
+
+        self.__pessoa = pessoa
+        kwargs['nome'] = self.__pessoa._Pessoa__nome
+        kwargs['idade'] = self.__pessoa._Pessoa__idade
+        kwargs['altura'] = self.__pessoa._Pessoa__altura
+        if len(Agenda.cadastro) == 10:
+            print('agenda lotada......')
+        else:
+            Agenda.cadastro.append(kwargs.copy())
+            kwargs.clear()
+
+
+saulo = Pessoa('saulo', 10, 50)
+livia = Pessoa('livia', 18, 100)
+cc1 = Agenda(saulo)
+cc2 = Agenda(livia)
+cc1.ver_agenda()
+cc1.remover_pessoa()
+cc1.ver_agenda()
+
+cc2.posicao_agenda()
