@@ -1,0 +1,85 @@
+# classe televisao
+class Televisao:
+    # atributo de classe
+    canais = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    # construtor
+    def __init__(self, nome_tv):
+        # atributos privados
+        self.__nome_tv = nome_tv
+        self.__volume_padrao = 10
+
+    # metodos de instancia publico 1
+    def ver_nome_tv(self):
+        print(f'nome da tv:{self.__nome_tv}')
+
+    # metodos de instancia publico 2
+    def ver_volume(self):
+        print(f'volume atual:{self.__volume_padrao}')
+
+
+# classe controle remoto
+class Controle_remoto:
+
+    # construtor
+    # tv = classe televisao que foi passada como argumento
+    def __init__(self, tv):
+        # atributo privado
+        self.__tv = tv
+
+    # metodos de instancia publico 1
+    def aumentar_volume(self):
+        while True:
+            aumentar = str(input('aumentar volume?'))
+            # acessando o atributo privado da classe televisao,e fazando uma verificao da variavel
+            if self.__tv._Televisao__volume_padrao == 100:
+                print('volume ja estar no maximo......')
+                break
+            if 's' in aumentar:
+                # calculo do incremento do volume padrao
+                self.__tv._Televisao__volume_padrao = self.__tv._Televisao__volume_padrao + 1
+                print(self.__tv._Televisao__volume_padrao)
+            else:
+                break
+
+    # metodos de instancia publico 2
+    def diminuir_volume(self):
+        while True:
+            diminuir = str(input('diminuir volume?'))
+            if self.__tv._Televisao__volume_padrao == 0:
+                print('volume ja estar no minimo......')
+                break
+            if 's' in diminuir:
+                self.__tv._Televisao__volume_padrao = self.__tv._Televisao__volume_padrao - 1
+            else:
+                break
+
+    def ver_canais(self):
+        # percorrendo atraves de um atributo de classe
+        for c in self.__tv.canais:
+            print(f'canal:{c}')
+
+    # selecionando o canal dentro de uma lista,que e um atributo de classe da Televisao
+    def selecionar_canal(self):
+        try:
+            while True:
+                canal=int(input('canal:'))
+                # verificando:
+                x = list(filter(lambda x: canal == x, self.__tv.canais))
+                if len(x) == 1:
+                    print(f'canal selecionado:{x[0]}')
+                else:
+                    # pritando um atributo privado
+                    print(f'esta tv:{self.__tv._Televisao__nome_tv} nao possui o canal solicitado:{canal}')
+                    break
+        except:
+            print('erro....')
+
+
+tv1 = Televisao('tv1')
+tv1.ver_nome_tv()
+cc1 = Controle_remoto(tv1)
+cc1.aumentar_volume()
+print('============')
+tv1.ver_volume()
+cc1.selecionar_canal()
