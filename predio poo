@@ -1,0 +1,85 @@
+class Elevador:
+
+    def __init__(self, ):
+        self.__andares = [0, int(input('quantidade de andares'))]
+        self.__cap_elevador = int(input('capacidade do elevador'))
+        self.__elevador = [{'pessoas': 0}]
+
+    @property
+    def andares(self):
+        n = []
+        for c in range(max(self.__andares), -1, -1):
+            n.append(c)
+        x = list(map(lambda xx: {'andar': xx}, n))
+        for xx in x:
+            print('=' * 8)
+            for yy, uu in xx.items():
+                print(f'{yy}=={uu}')
+
+    @property
+    def elevador(self):
+        return self.__elevador
+
+    @property
+    def cap_elevador(self):
+        return self.__cap_elevador
+
+    def ocupar_elevador(self):
+        soma = 0
+        while True:
+            qtd = int(input('qtd de pessoas:'))
+            if qtd > self.__cap_elevador:
+                print('capacidade maxima')
+            else:
+                soma = soma + qtd
+                if soma > self.__cap_elevador:
+                    print('lotado')
+                    break
+                else:
+                    if self.__elevador[0]['pessoas'] >= self.__cap_elevador:
+                        print('elevador lotado')
+                    else:
+                        self.__elevador[0]['pessoas'] = soma
+
+            s = input('sair?')
+            if 's' in s:
+                break
+
+    def sair_elevador(self):
+        while True:
+            if self.__elevador[0]['pessoas'] == 0:
+                print('elevador vazio')
+                break
+            else:
+                qtd = int(input('quantas pessoas vao sair do elevador'))
+                while qtd < 0:
+                    print('valor errado')
+                    qtd = int(input('quantas pessoas vao sair do elevador'))
+                self.__elevador[0]['pessoas'] = self.__elevador[0]['pessoas'] - qtd
+                print(f'resta {self.__elevador[0]["pessoas"]} pessoas')
+            s = input('sair?')
+            if 's' in s:
+                break
+
+    def subir(self):
+        n = []
+        for c in range(max(self.__andares),  - 1, -1):
+            n.append(c)
+        x = list(map(lambda xx: {'andar': xx}, n))
+        b = max(x, key=lambda xx: xx['andar'])
+        while True:
+            subindo = str(input('subir?'))
+            if 's' in subindo:
+                a = int(input('qual andar:'))
+                if a > b['andar']:
+                    print('nao existe este andar')
+                elif a < 0:
+                    print('andar invalido')
+                else:
+                    z = list(filter(lambda xx: xx['andar'] == a,x))
+                    print(f"  o elavador parou neste andar {z[0]['andar']}")
+
+
+a = Elevador()
+a.ocupar_elevador()
+print(a.elevador)
