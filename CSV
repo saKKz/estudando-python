@@ -1,0 +1,41 @@
+from csv import writer, DictReader, DictWriter, reader
+
+"""
+try:
+    with open('teste.csv','a',newline="") as arq:
+        esq=writer(arq)
+        esq.writerow(['pokemon','tipo'])
+        while True:
+            pokemon=input('pokemon:')
+            if 'sair' in pokemon:
+                break
+            tipo=input('tipo:')
+            esq.writerow([pokemon,tipo])
+except  FileExistsError as e:
+    print('ja tem algo neste arquivo')
+    
+    
+with open('teste.csv') as arq:
+    l=reader(arq)
+    for c in l:
+        print(f'{c[0]} {c[1]}')
+        
+with open('pokemons.csv', 'w', newline="") as arq:
+    cabecalho = ['pokemon', 'tipo', 'segundo tipo']
+    c=DictWriter(arq,fieldnames=cabecalho)
+    c.writeheader()
+    while True:
+        pokemon=input('pokemon:')
+        if 'sair' in pokemon:
+            break
+        tipo=input('tipo:')
+        segundo_tipo=input('segundo tipo:')
+        c.writerow({"pokemon":pokemon,"tipo":tipo,"segundo tipo":segundo_tipo})
+        
+"""
+
+with open('pokemons.csv',encoding='utf-8') as arq:
+    c=DictReader(arq)
+    for x in c:
+        print(f'{x["pokemon"]} {x["tipo"]} {x["segundo tipo"]}')
+
