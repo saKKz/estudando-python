@@ -1,0 +1,33 @@
+from csv import reader, writer, DictWriter, DictReader
+
+
+# escrevendo um arquivo csv exemplo
+while True:
+    try:
+        # paramento 'x' verefica se existe um arquivo se existe da um erro 'FileExistsError'
+        with open('pessoas.csv', 'x', newline="") as arq:
+            c = writer(arq)
+            c.writerow(['nome', 'altura', 'sexo', 'idade'])
+            print('cabecalho criado')
+            print('nome/altura/sexo/idade')
+    except FileExistsError:
+        # paramento 'a' verefica se existe um arquivo se existir adicionar no final da linha
+        with open('pessoas.csv', 'a', newline="") as arq1:
+            p = writer(arq1)
+            nome = input('nome:')
+            altura = input('altura:')
+            sexo = input('sexo:')
+            idade = input('idade:')
+            p.writerow([nome, altura, sexo, idade])
+            continuar = str(input('continuar?'))
+            if 'n' in continuar:
+                break
+    except:
+        print('erro')
+
+
+#lendo um arquivo
+with open('pessoas.csv','r',encoding='utf-8') as arq:
+    a=reader(arq)
+    for xy in a:
+        print(f'{xy[0]} {xy[1]} {xy[2]} {xy[3]}')
