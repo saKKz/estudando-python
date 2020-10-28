@@ -1,0 +1,39 @@
+def criando_um_arq():
+    from csv import reader,writer
+    cabecalho=[]
+    dados=[]
+    try:
+        nome_arq=input('arquivo')+'.csv'
+        with open(nome_arq,'r',encoding='utf-8') as arq:
+            a=reader(arq)
+            for c in a:
+                print(c)
+                cabecalho.append(c)
+                break
+        with open(nome_arq, 'a', newline="") as arq:
+            x=writer(arq)
+            while True:
+                for c in range(len(cabecalho[0])):
+                    d=input('dados:')
+                    dados.append(d)
+                x.writerow(dados)
+                dados.clear()
+                continuar=input('continuar?:')
+                if 'n' in continuar:
+                    break
+    except FileNotFoundError:
+        with open(nome_arq,'w',newline="") as arq:
+            cc=writer(arq)
+            while True:
+                c=input('titulo no cabeçalho:')
+                cabecalho.append(c)
+                cont=input('continuar?')
+                if 'n' in cont:
+                    print('arquivo criado')
+                    print(f'cabecalho do arquivo:{cabecalho}')
+                    break
+            cc.writerow(cabecalho)
+
+
+
+criando_um_arq()
