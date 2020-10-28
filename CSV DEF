@@ -1,0 +1,54 @@
+def criando_arq_csv():
+    from csv import writer
+    t = []
+    nome_arquivo = input('nome do arquivo:')
+    n = []
+    for c in range(2):
+        try:
+            with open(nome_arquivo + '.csv', 'x', newline="") as arq:
+                c = writer(arq)
+                while True:
+                    print('cabecalho do arquivo:')
+                    cabecalho = str(input('titulo:'))
+                    if 'sair' in cabecalho:
+                        break
+                    n.append(cabecalho)
+                    print(f'CABEÇALHO DO ARQUIVO:{n}')
+                c.writerow(n)
+                print('cabecalho criado')
+        except FileExistsError:
+            with open(nome_arquivo + '.csv', 'a', newline="") as arq2:
+                c1 = writer(arq2)
+                while True:
+                    print('digite sair para sair ne..')
+                    for c in range(len(n)):
+                        print(n[c], end=':')
+                        uy = input('dados')
+                        t.append(uy)
+                    c1.writerow(t)
+                    t.clear()
+                    conti = str(input('continuar?'))
+                    if 'n' in conti:
+                        break
+
+
+def adicionar_dados():
+    from csv import writer, reader
+    nome_arq = str(input('arquivo:')) + '.csv'
+    cabe = []
+    with open(nome_arq, 'r', newline="") as arq:
+        z = reader(arq)
+        for c in z:
+            cabe.append(c)
+            print(c)
+            break
+    with open(nome_arq, 'a', newline="") as arq:
+        dados = []
+        x = writer(arq)
+        for c in range(len(cabe[0])):
+            d = str(input('dados:'))
+            dados.append(d)
+        x.writerow(dados)
+
+
+adicionar_dados()
