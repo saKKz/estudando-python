@@ -1,0 +1,96 @@
+import pymysql
+
+
+def conectar():
+    try:
+        con = pymysql.connect(
+            db='loja',
+            host='localhost',
+            user=input('usuario:'),
+            passwd=input('senha:'),
+        )
+        print(f'{"conectado....."}')
+        return con
+    except:
+        print('erro')
+
+
+def desconectar(con):
+    if con:
+        con.close()
+
+
+def adicionar_tipo():
+    from csv import writer
+    con = conectar()
+    while True:
+        try:
+            with open('tipos.csv', 'x', newline="") as arq:
+                zz = writer(arq)
+                zz.writerow(['id', 'tipo'])
+                print('o arquivo csv foi criado')
+                break
+        except FileExistsError:
+            c = con.cursor()
+            lista = con.cursor()
+            lista.execute('select * from tipos')
+            lista_t = lista.fetchall()
+            tipo = input('tipo:')
+            x = list(filter(lambda xx: xx[1] == tipo, lista_t))
+            if len(x) > 0:
+                print(f'{tipo} ja esta no cadastro')
+            else:
+                try:
+                    c.execute(f"insert into tipos (tipo) values ('{tipo}');")
+                    con.commit()
+                    if c.rowcount == 1:
+                        n = []
+                        for ctav in lista_t:
+                            n.append(ctav)
+                        print(f'{tipo} inserido com sucesso')
+                        xxz = list(map(lambda xx: {'id': xx[0], 'tipo': xx[1]}, n))
+                        t = max(xxz, key=lambda xx: xx['id'])
+                        with open('tipos.csv', 'a', newline="") as arq:
+                            y = writer(arq)
+                            y.writerow([t['id'] + 1, tipo])
+                except ValueError:
+                    with open('tipos.csv', 'a', newline="") as arq:
+                        p=writer(arq)
+                        p.writerow([1,tipo])
+
+            cont = input('continuar?')
+            if 'n' in cont:
+                desconectar(con)
+                break
+
+
+def remover_tipo():
+    from csv import writer, reader
+    con = conectar()
+    rev = con.cursor()
+    tipo = input('tipo a ser excluido')
+    rev.execute(f"delete from tipos where tipo='{tipo}'")
+    con.commit()
+    if rev.rowcount >= 1:
+        print(f'{tipo} foi removido')
+        with open('tipos.csv', 'r', encoding='utf-8') as aq:
+            tip = []
+            a = reader(aq)
+            for c in a:
+                tip.append(c)
+            print(tip)
+            x = list(filter(lambda xx: xx[1] == tipo, tip))
+            for ccc in range(len(tip)):
+                if tip[ccc] == x[0]:
+                    del tip[ccc]
+                    break
+            print(tip)
+        with open('tipos.csv', 'w', newline="") as aq:
+            b = writer(aq)
+            for c in range(len(tip)):
+                b.writerow([tip[c][0], tip[c][1]])
+    else:
+        print(f'{tipo} nao esta no cadastro')
+
+remover_tipo()
+
