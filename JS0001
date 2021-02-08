@@ -1,0 +1,30 @@
+let x =[]
+
+function cemNumerosPar(array){
+  let tentativa=0;
+  let soma=0;
+
+  while(array.length<=10){
+
+    let ale=(min,max)=>Math.floor(Math.random()*(max-min)+min);
+    let x = ale(0,1000);
+    if(x%2==0){
+      console.log('numero:'+x)
+      array.push(x);
+    }else{
+      tentativa++;
+    }
+  }
+  for(let cu of array){
+    soma+=cu;
+  }
+  let vezesCinco=array.map((xxx)=>{
+    return xxx*5;
+  })
+  console.log('soma total de todos os numeros:'+soma)
+  console.log(vezesCinco)
+  return 'depois de quantas tentativas?:'+tentativa
+
+}
+
+cemNumerosPar(x);
