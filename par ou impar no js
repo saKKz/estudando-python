@@ -1,0 +1,76 @@
+let P1=[0];
+let P2=[0];
+
+let continuar=''
+
+console.log('BEM VINDOS')
+let nome1=prompt('nome do jogador numero um:')
+let nome2=prompt('nome do jogador numero dois:')
+let c1=0;
+let c2=0;
+while(continuar!='n'){
+  let numeroAleatorio=(min,max)=>(Math.floor(Math.random()*(max-min)+min))
+  let resultadoJogadorUm=numeroAleatorio(0,10)
+  let resultadoJogadorDois=numeroAleatorio(0,10)
+  let soma = resultadoJogadorDois + resultadoJogadorUm
+
+  let sorteio = (min,max)=>(Math.floor(Math.random()*(max-min)+min))
+
+  let ganhador = sorteio(0,2)
+  console.log(ganhador)
+  let escolha='';
+
+
+  if(ganhador==0){
+    console.log(`ganhador do sorteio:${nome1}`)
+    while(escolha!='i' && escolha!='p'){
+    escolha=prompt('escolha impar[i] ou par[p]:')
+    if(escolha=='i' && soma%2==1){
+      c1+=1;
+      P1.pop();
+      P1.push(c1);
+      console.log(`resultado:${soma} o jogador ${nome1} ganhou pois escolhou impar `)
+    }else if(escolha=='p' && soma%2==0){
+      c1+=1;
+      P1.pop();
+      P1.push(c1);
+      console.log(`resultado:${soma} o jogador ${nome1} ganhou pois escolhou par `)
+    }else{
+      c2+=1;
+      P2.pop();
+      P2.push(c2);
+      console.log(`voce perdeu quem ganhou foi ${nome2} resultado:${soma} `)
+    }
+  }
+  
+  }else{
+    console.log(`ganhador do sorteio:${nome2}`)
+    while(escolha!='i' && escolha!='p'){
+    escolha=prompt('escolha impar[i] ou par[p]:')
+     if(escolha=='i' && soma%2==1){
+       c2+=1;
+        P2.pop();
+        P2.push(c2);
+      console.log(`resultado:${soma} o jogador ${nome2} ganhou pois escolhou impar `)
+    }else if(escolha=='p' && soma%2==0){
+      c2+=1;
+      P2.pop();
+      P2.push(c2);
+      console.log(`resultado:${soma} o jogador ${nome2} ganhou pois escolhou par `)
+
+    }else{
+      c1+=1;
+      P1.pop();
+      P1.push(c2);
+      console.log(`voce perdeu quem ganhou foi ${nome1} resultado:${soma} `)
+    }
+  }
+  
+
+  }
+
+  
+  console.log(`vitorias do ${nome1}:${P1}
+  vitorias do ${nome2}:${P2}`)
+  continuar=prompt('quer continuar jogando[s/n]?')
+}
