@@ -1,0 +1,35 @@
+
+
+
+
+
+let numeros = []
+
+
+let numeroAleatorio = ((min,max)=>{
+
+  return Math.floor(Math.random()*(max-min)+min)
+
+
+})
+
+
+for(let i =0;i<=9;i++){
+
+  numeros.push(numeroAleatorio(0,30))
+
+}
+
+console.log(numeros)
+
+let encontreCinco = numeros.find((numero)=>{
+
+  return numero === 5
+
+})
+
+if(encontreCinco == undefined){
+  console.log('nao tem cinco')
+}else{
+  console.log(`tem cinco e a posicao dele e ${numeros.indexOf(5)} `)
+}
