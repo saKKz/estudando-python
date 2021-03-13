@@ -1,0 +1,33 @@
+let gastos={
+
+  receitas:[563,1522,145],
+  despesas:[150,120,80,230,50],
+
+}
+
+function calculo(gasto){
+
+  let r = null
+  let d = null
+
+  for(let c of gasto.receitas){
+    r+=c
+  }
+  console.log('receita:'+r)
+
+  for(let i of gasto.despesas){
+    d+=i
+  }
+  console.log('despesa:'+d)
+
+  let s = r - d
+
+  if(s<0){
+    return `voce esta devendo:${s}`
+  }else{
+    return `voce esta com credito:${s}`
+  }
+
+}
+
+calculo(gastos)
